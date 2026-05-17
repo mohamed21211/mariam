@@ -233,8 +233,20 @@ window.addEventListener('DOMContentLoaded', () => {
     const maxX = window.innerWidth - yesBtn.offsetWidth - 20;
     const maxY = window.innerHeight - yesBtn.offsetHeight - 20;
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+    const noRect = noBtn.getBoundingClientRect();
+    const margin = 20;
+
+    let x, y, tries = 0;
+    do {
+      x = 10 + Math.random() * (maxX - 10);
+      y = 10 + Math.random() * (maxY - 10);
+      tries++;
+
+      const overlapX = x < noRect.right + margin && x + yesBtn.offsetWidth > noRect.left - margin;
+      const overlapY = y < noRect.bottom + margin && y + yesBtn.offsetHeight > noRect.top - margin;
+
+      if (!(overlapX && overlapY)) break;
+    } while (tries < 30);
 
     yesBtn.style.position = 'fixed';
     yesBtn.style.left = x + 'px';
